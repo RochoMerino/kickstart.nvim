@@ -102,7 +102,7 @@ vim.g.have_nerd_font = false
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -292,6 +292,7 @@ require('lazy').setup({
 
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
+    'windwp/nvim-autopairs',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     opts = {
       -- delay between pressing a key and opening which-key (milliseconds)
@@ -690,6 +691,7 @@ require('lazy').setup({
             },
           },
         },
+        tsserver = {},
       }
 
       -- Ensure the servers and tools above are installed
@@ -712,8 +714,11 @@ require('lazy').setup({
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
-        ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
-        automatic_installation = false,
+        ensure_installed = {
+          'lua_ls',
+          'tsserver',
+        }, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
+        automatic_installation = true,
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
